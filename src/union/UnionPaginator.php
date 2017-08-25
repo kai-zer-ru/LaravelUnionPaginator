@@ -116,7 +116,7 @@ class UnionPaginator
 		if ($pages_float > $pages) {
 			$pages = $pages + 1;
 		}
-		dump($pages, $this->total, $this->perPage);
+//		dump($pages, $this->total, $this->perPage);
 		if ($page > 3) {
 			$parameters[ $this->pageName ] = 1;
 			$url = $this->url . '?' . http_build_query($parameters, '', '&');
