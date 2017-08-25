@@ -8,5 +8,5 @@ php:
   - '7.2'
 os: linux
 install:
-  - composer require kaizer666/laravel-union-paginator
+  - composer require "kaizer666/laravel-union-paginator:*"
   
