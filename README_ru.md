@@ -1,5 +1,9 @@
 # Laravel Union Paginator
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/kaizer666/laravel-union-paginator.svg?style=flat-square)](https://packagist.org/packages/kaizer666/laravel-union-paginator)
+[![Licence](https://img.shields.io/packagist/l/kaizer666/laravel-union-paginator.svg?style=flat-square)](https://packagist.org/packages/kaizer666/laravel-union-paginator)
+[![Build Status](https://travis-ci.org/kaizer666/LaravelUnionPaginator.svg?branch=master)](https://travis-ci.org/kaizer666/LaravelUnionPaginator)
+
 ## Оригинальное ReadMe
 Оригинальное ReadMe [здесь](README.md)
 
@@ -37,3 +41,19 @@ function test() {
       $response
     );
 }
+```
+
+## Тесты
+
+``` bash
+$ composer test
+```
+
+
+## Авторы
+
+- [Maksim kovalyov](https://github.com/kaizer666)
+
+## Лицензия
+
+The MIT License (MIT)
