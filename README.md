@@ -29,6 +29,8 @@ function test() {
       ->setCurrentPage(28)
       ->setPerPage(20)
       ->getPaginate();
+    $response["pagination"] = $paginator->links(); // html paginator
+    $response["pagination_json"] = $paginator->linksJson(); // Json paginator
     return response()->json(
       $response
     );

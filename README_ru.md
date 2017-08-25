@@ -27,8 +27,12 @@ function test() {
     $response = $paginator
       ->setQuery($data2)
       ->setCurrentPage(28)
+      ->setLang("ru")
       ->setPerPage(20)
       ->getPaginate();
+    $response["pagination"] = $paginator->links(); // html paginator
+    $response["pagination_json"] = $paginator->linksJson(); // Json paginator
+
     return response()->json(
       $response
     );

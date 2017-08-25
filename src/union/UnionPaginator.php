@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Request;
 
 class UnionPaginator
 {
+	const LANGUAGE_RU = "ru";
+	const LANGUAGE_EN = "en";
 	public $query;
 	public $total;
 	public $perPage;
@@ -20,6 +22,7 @@ class UnionPaginator
 	public $parameters;
 	public $hasMore;
 	public $count;
+	public $lang = self::LANGUAGE_EN;
 	
 	
 	function __construct()
@@ -38,6 +41,14 @@ class UnionPaginator
 		$this->perPage = $perPage;
 		
 		return $this;
+	}
+	
+	public function setLang($lang) {
+		if ($lang != self::LANGUAGE_EN AND $lang != self::LANGUAGE_RU) {
+			$this->lang = self::LANGUAGE_EN;
+			return;
+		}
+		$this->lang = $lang;
 	}
 	
 	public function setPageName($pageName)
@@ -95,7 +106,35 @@ class UnionPaginator
 		return $this->query->skip($skip)->take($this->perPage)->get();
 	}
 	
-	public function links($url = null)
+	public function linksJson() {
+		$pagination = [];
+		$page = $this->currentPage;
+		$pages = $this->count;
+		if ($page > 3) {
+			$parameters[ $this->pageName ] = 1;
+			$url = $this->url . '?' . http_build_query($parameters, '', '&');
+			$pagination [] = ["text" => $this->lang == self::LANGUAGE_RU ? "Назад" : "Previous", "url" => $url, "active" => true];
+		}
+		for ($i = ($page - 2); $i < ($page + 5); $i++) {
+			if ($i > 0 AND $i < $pages+1) {
+				if ($i == ($page)) {
+					$pagination [] = ["text" => $i, "url" => "", "active" => false];
+				} else {
+					$parameters[ $this->pageName ] = $i;
+					$url = $this->url . '?' . http_build_query($parameters, '', '&');
+					$pagination [] = ["text" => $i, "url" => $url, "active" => true];
+				}
+			}
+		}
+		if ($page < $pages-4) {
+			$parameters[ $this->pageName ] = $pages;
+			$url = $this->url . '?' . http_build_query($parameters, '', '&');
+			$pagination [] = ["text" => $this->lang == self::LANGUAGE_RU ? "Далее" : "Next", "url" => $url, "active" => true];
+		}
+		return $pagination;
+	}
+	
+	public function links()
 	{
 		$pagesCount = ceil($this->total / $this->perPage);
 		
@@ -176,7 +215,6 @@ class UnionPaginator
 			"prev_page_url" => $this->getPrevUrl(),
 			"to" => ($this->perPage * $this->currentPage) + $this->count,
 			"total" => $this->total,
-			"links" => $this->links(),
 		];
 		return $response;
 	}
