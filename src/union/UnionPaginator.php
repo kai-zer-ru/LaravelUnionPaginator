@@ -114,25 +114,25 @@ class UnionPaginator
 		if ($page > 3) {
 			$parameters[ $this->pageName ] = 1;
 			$url = $this->url . '?' . http_build_query($parameters, '', '&');
-			$pagination [] = ["text" => 1, "url" => $url, "curent" => false, "disabled" => false, "page" => 1];
-			$pagination [] = ["text" => "...", "url" => "", "curent" => false, "disabled" => true, "page" => 0];
+			$pagination [] = ["text" => 1, "url" => $url, "current" => false, "disabled" => false, "page" => 1];
+			$pagination [] = ["text" => "...", "url" => "", "current" => false, "disabled" => true, "page" => 0];
 		}
 		for ($i = ($page - 2); $i < ($page + 5); $i++) {
 			if ($i > 0 AND $i < $pages+1) {
 				if ($i == ($page)) {
-					$pagination [] = ["text" => $i, "url" => "", "curent" => true, "disabled" => true, "page" => $page];
+					$pagination [] = ["text" => $i, "url" => "", "current" => true, "disabled" => true, "page" => $page];
 				} else {
 					$parameters[ $this->pageName ] = $i;
 					$url = $this->url . '?' . http_build_query($parameters, '', '&');
-					$pagination [] = ["text" => $i, "url" => $url, "curent" => false,  "disabled" => false, "page" => $i];
+					$pagination [] = ["text" => $i, "url" => $url, "current" => false,  "disabled" => false, "page" => $i];
 				}
 			}
 		}
 		if ($page < $pages-4) {
-			$pagination [] = ["text" => "...", "url" => "", "curent" => false,  "disabled" => true, "page" => 0];
+			$pagination [] = ["text" => "...", "url" => "", "current" => false,  "disabled" => true, "page" => 0];
 			$parameters[ $this->pageName ] = $pages;
 			$url = $this->url . '?' . http_build_query($parameters, '', '&');
-			$pagination [] = ["text" => $pages, "url" => $url, "curent" => false,  "disabled" => false, "page" => $pages];
+			$pagination [] = ["text" => $pages, "url" => $url, "current" => false,  "disabled" => false, "page" => $pages];
 		}
 		return $pagination;
 	}
