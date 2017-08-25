@@ -3,6 +3,8 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/kaizer666/laravel-union-paginator.svg?style=flat-square)](https://packagist.org/packages/kaizer666/laravel-union-paginator)
 [![Licence](https://img.shields.io/packagist/l/kaizer666/laravel-union-paginator.svg?style=flat-square)](https://packagist.org/packages/kaizer666/laravel-union-paginator)
 [![Build Status](https://travis-ci.org/kaizer666/LaravelUnionPaginator.svg?branch=master)](https://travis-ci.org/kaizer666/LaravelUnionPaginator)
+[![Total Downloads](https://poser.pugx.org/kaizer666/laravel-union-paginator/d/total)](https://packagist.org/packages/kaizer666/laravel-union-paginator)
+[![Latest Stable Version](https://poser.pugx.org/kaizer666/laravel-union-paginator/version)](https://packagist.org/packages/barryvdh/laravel-debugbar)
 
 ## Russian ReadMe
 Russian ReadMe [here](README_ru.md)
