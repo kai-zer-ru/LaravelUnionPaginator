@@ -46,9 +46,10 @@ class UnionPaginator
 	public function setLang($lang) {
 		if ($lang != self::LANGUAGE_EN AND $lang != self::LANGUAGE_RU) {
 			$this->lang = self::LANGUAGE_EN;
-			return;
+			return $this;
 		}
 		$this->lang = $lang;
+		return $this;
 	}
 	
 	public function setPageName($pageName)
