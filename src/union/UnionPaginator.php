@@ -108,17 +108,24 @@ class UnionPaginator
 	}
 	
 	public function linksJson() {
+		$parameters = $this->parameters;
 		$pagination = [];
 		$page = $this->currentPage;
-		$pages = $this->count;
+		$pages = intval($this->total / $this->perPage);
+		$pages_float = $this->total / $this->perPage;
+		if ($pages_float > $pages) {
+			$pages = $pages + 1;
+		}
+		dump($pages, $this->total, $this->perPage);
 		if ($page > 3) {
 			$parameters[ $this->pageName ] = 1;
 			$url = $this->url . '?' . http_build_query($parameters, '', '&');
 			$pagination [] = ["text" => 1, "url" => $url, "current" => false, "disabled" => false, "page" => 1];
 			$pagination [] = ["text" => "...", "url" => "", "current" => false, "disabled" => true, "page" => 0];
 		}
+//		dump($page - 2, $page + 5, $pages);
 		for ($i = ($page - 2); $i < ($page + 5); $i++) {
-			if ($i > 0 AND $i < $pages+1) {
+			if ($i > 0 AND $i < $pages) {
 				if ($i == ($page)) {
 					$pagination [] = ["text" => $i, "url" => "", "current" => true, "disabled" => false, "page" => $page];
 				} else {
@@ -139,8 +146,11 @@ class UnionPaginator
 	
 	public function links()
 	{
-		$pagesCount = ceil($this->total / $this->perPage);
-		
+		$pagesCount = intval($this->total / $this->perPage);
+		$pages_float = $this->total / $this->perPage;
+		if ($pages_float > $pagesCount) {
+			$pagesCount = $pagesCount + 1;
+		}
 		if ($pagesCount == 1 || $pagesCount == 0) {
 			return '';
 		}
@@ -207,16 +217,21 @@ class UnionPaginator
 		$data = $this->getData();
 		$this->hasMore = $this->total > $this->perPage;
 		$this->count = count($data);
+		$pagesCount = intval($this->total/$this->perPage);
+		$pages_float = $this->total / $this->perPage;
+		if ($pages_float > $pagesCount) {
+			$pagesCount = $pagesCount + 1;
+		}
 		$response = [
 			"current_page" => $this->currentPage,
 			"data" => $data,
-			"from" => ($this->perPage * $this->currentPage) + 1,
-			"last_page" => $this->total/$this->perPage,
+			"from" => ($this->perPage * ($this->currentPage - 1)) + 1,
+			"last_page" => $pagesCount,
 			"next_page_url" => $this->getNextUrl(),
 			"path" => $this->url,
 			"per_page" => $this->perPage,
 			"prev_page_url" => $this->getPrevUrl(),
-			"to" => ($this->perPage * $this->currentPage) + $this->count,
+			"to" => ($this->perPage * ($this->currentPage-1)) + $this->count,
 			"total" => $this->total,
 		];
 		return $response;
