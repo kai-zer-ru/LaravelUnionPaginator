@@ -120,7 +120,7 @@ class UnionPaginator
 		for ($i = ($page - 2); $i < ($page + 5); $i++) {
 			if ($i > 0 AND $i < $pages+1) {
 				if ($i == ($page)) {
-					$pagination [] = ["text" => $i, "url" => "", "current" => true, "disabled" => true, "page" => $page];
+					$pagination [] = ["text" => $i, "url" => "", "current" => true, "disabled" => false, "page" => $page];
 				} else {
 					$parameters[ $this->pageName ] = $i;
 					$url = $this->url . '?' . http_build_query($parameters, '', '&');
