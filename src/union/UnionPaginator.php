@@ -176,6 +176,7 @@ class UnionPaginator
 			"prev_page_url" => $this->getPrevUrl(),
 			"to" => ($this->perPage * $this->currentPage) + $this->count,
 			"total" => $this->total,
+			"links" => $this->links(),
 		];
 		return $response;
 	}
