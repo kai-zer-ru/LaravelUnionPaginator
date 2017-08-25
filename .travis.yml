@@ -7,6 +7,16 @@ php:
   - '7.1'
   - '7.2'
 os: linux
-install:
-  - composer require "kaizer666/laravel-union-paginator:*"
+
+env:
+  matrix:
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+
+script:
+  - phpunit
   
