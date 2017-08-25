@@ -116,14 +116,12 @@ class UnionPaginator
 		if ($pages_float > $pages) {
 			$pages = $pages + 1;
 		}
-//		dump($pages, $this->total, $this->perPage);
 		if ($page > 3) {
 			$parameters[ $this->pageName ] = 1;
 			$url = $this->url . '?' . http_build_query($parameters, '', '&');
 			$pagination [] = ["text" => 1, "url" => $url, "current" => false, "disabled" => false, "page" => 1];
 			$pagination [] = ["text" => "...", "url" => "", "current" => false, "disabled" => true, "page" => 0];
 		}
-//		dump($page - 2, $page + 5, $pages);
 		for ($i = ($page - 2); $i < ($page + 5); $i++) {
 			if ($i > 0 AND $i < $pages) {
 				if ($i == ($page)) {
