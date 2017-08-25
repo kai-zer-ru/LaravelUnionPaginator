@@ -108,6 +108,9 @@ class UnionPaginator
 	}
 	
 	public function linksJson() {
+		if ($this->total == $this->perPage) {
+			return [];
+		}
 		$parameters = $this->parameters;
 		$pagination = [];
 		$page = $this->currentPage;
@@ -123,7 +126,7 @@ class UnionPaginator
 			$pagination [] = ["text" => "...", "url" => "", "current" => false, "disabled" => true, "page" => 0];
 		}
 		for ($i = ($page - 2); $i < ($page + 5); $i++) {
-			if ($i > 0 AND $i < $pages) {
+			if ($i > 0 AND $i <= $pages) {
 				if ($i == ($page)) {
 					$pagination [] = ["text" => $i, "url" => "", "current" => true, "disabled" => false, "page" => $page];
 				} else {
