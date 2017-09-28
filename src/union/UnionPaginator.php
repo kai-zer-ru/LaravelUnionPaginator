@@ -198,18 +198,25 @@ class UnionPaginator
 	private  function getNextUrl() {
 		$nextPage = $this->currentPage == ($this->total/$this->perPage) ? null : $this->currentPage+1;
 		if ($nextPage) {
-			return $this->url . "?page=" . $nextPage;
+			$parameters = $this->parameters;
+			$parameters['page'] = $nextPage;
+			http_build_query($parameters, '', '&');
+			return $this->url . '?' . http_build_query($parameters, '', '&');
 		}
 		return "";
 	}
 	
 	private  function getPrevUrl() {
 		$prevPage = $this->currentPage == 1 ? null : $this->currentPage-1;
+		$parameters = $this->parameters;
+		
 		if ($prevPage) {
 			if ($prevPage == 1) {
-				return $this->url;
+				return $this->url . '?' . http_build_query($parameters, '', '&');
 			}
-			return $this->url . "?page=" . $prevPage;
+			$parameters['page'] = $nextPage;
+
+			return $this->url . '?' . http_build_query($parameters, '', '&');
 		}
 		return "";
 	}
