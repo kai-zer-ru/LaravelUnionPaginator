@@ -214,7 +214,7 @@ class UnionPaginator
 			if ($prevPage == 1) {
 				return $this->url . '?' . http_build_query($parameters, '', '&');
 			}
-			$parameters['page'] = $nextPage;
+			$parameters['page'] = $prevPage;
 
 			return $this->url . '?' . http_build_query($parameters, '', '&');
 		}
