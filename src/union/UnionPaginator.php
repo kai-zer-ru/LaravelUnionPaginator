@@ -15,6 +15,7 @@ class UnionPaginator
 	const LANGUAGE_EN = "en";
 	public $query;
 	public $total;
+	public $numPages;
 	public $perPage;
 	public $pageName;
 	public $currentPage;
@@ -31,6 +32,7 @@ class UnionPaginator
 		$this->perPage = 15;
 		$this->pageName = 'page';
 		$this->total = 0;
+		$this->numPages = 0;
 		$this->currentPage = 1;
 		$this->url = Request::url();
 		$this->parameters = Request::query();
@@ -63,8 +65,9 @@ class UnionPaginator
 	{
 		$this->query = $query;
 		$this->total = $this->getTotal($query);
-		
-		return $this;
+
+
+        return $this;
 	}
 	
 	public function setCurrentPage($page = 1)
@@ -147,8 +150,8 @@ class UnionPaginator
 	
 	public function links()
 	{
-		$pagesCount = intval($this->total / $this->perPage);
-		$pages_float = $this->total / $this->perPage;
+        $pagesCount = intval($this->total / $this->perPage);
+        $pages_float = $this->total / $this->perPage;
 		if ($pages_float > $pagesCount) {
 			$pagesCount = $pagesCount + 1;
 		}
@@ -196,38 +199,45 @@ class UnionPaginator
 		return $html;
 	}
 	private  function getNextUrl() {
-		$nextPage = $this->currentPage == ($this->total/$this->perPage) ? null : $this->currentPage+1;
+		$nextPage = $this->currentPage == $this->numPages ? null : $this->currentPage+1;
+
+
 		if ($nextPage) {
-			return $this->url . "?page=" . $nextPage;
+			$parameters = $this->parameters;
+			$parameters['page'] = $nextPage;
+			http_build_query($parameters, '', '&');
+			return $this->url . '?' . http_build_query($parameters, '', '&');
 		}
 		return "";
 	}
 	
 	private  function getPrevUrl() {
 		$prevPage = $this->currentPage == 1 ? null : $this->currentPage-1;
+		$parameters = $this->parameters;
+		
 		if ($prevPage) {
 			if ($prevPage == 1) {
-				return $this->url;
+                unset($parameters['page']);
+				return $this->url . '?' . http_build_query($parameters, '', '&');
 			}
-			return $this->url . "?page=" . $prevPage;
+			$parameters['page'] = $prevPage;
+
+			return $this->url . '?' . http_build_query($parameters, '', '&');
 		}
 		return "";
 	}
 	
 	public function getPaginate() {
-		$data = $this->getData();
+        $this->numPages = (int) ceil($this->total/$this->perPage);
+        $data = $this->getData();
 		$this->hasMore = $this->total > $this->perPage;
-		$this->count = count($data);
-		$pagesCount = intval($this->total/$this->perPage);
-		$pages_float = $this->total / $this->perPage;
-		if ($pages_float > $pagesCount) {
-			$pagesCount = $pagesCount + 1;
-		}
+        $this->count = count($data);
+
 		$response = [
 			"current_page" => $this->currentPage,
 			"data" => $data,
 			"from" => ($this->perPage * ($this->currentPage - 1)) + 1,
-			"last_page" => $pagesCount,
+			"last_page" => $this->numPages,
 			"next_page_url" => $this->getNextUrl(),
 			"path" => $this->url,
 			"per_page" => $this->perPage,
